@@ -1,0 +1,21 @@
+# push, pull_request and also sarif
+on: [push, pull_request]
+ 
+jobs:
+  sigma_code_scanning_run_steps:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+ 
+      - name: Download SIGMA
+        run: curl -k -L https://artifactory.internal.synopsys.com:443/artifactory/docker-local/sigma
+ 
+      - name: SIGMA analysis
+        run: ./sigma analyze --format github .
+ 
+      - name: Upload SARIF file
+        if: ${{ always() }}
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: sigma-results.json
