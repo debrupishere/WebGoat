@@ -9,7 +9,7 @@ jobs:
         uses: actions/checkout@v2
  
       - name: Download SIGMA
-        run: curl -k -L https://artifactory.internal.synopsys.com/artifactory/sigma-local/released/get | bash
+        run: curl -k -L https://artifactory.internal.synopsys.com:443/artifactory/docker-local/sigma
  
       - name: SIGMA analysis
         run: ./sigma analyze --format github .
